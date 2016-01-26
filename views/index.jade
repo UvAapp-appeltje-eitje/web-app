@@ -1,5 +1,11 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  header Appeltje Eitje
+  .content
+    .item.add
+      input(type="text", placeholder="Product").product 
+      .amount
+        span x
+        input(type="number", value="1")
+      input(type="button", value="Add")#addButton
