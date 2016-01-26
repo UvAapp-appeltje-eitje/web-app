@@ -1,11 +1,18 @@
 extends layout
 
 block content
-  header Appeltje Eitje
+  header 
+    .title Appeltje Eitje
+    input(type="button", value="Verder")
   .content
-    .item.add
+    .items
+    .add#addButton
+      i.fa.fa-plus
+      span Item toevoegen
+    
+  template#itemTamplate
+    .item
       input(type="text", placeholder="Product").product 
       .amount
         span x
         input(type="number", value="1")
-      input(type="button", value="Add")#addButton
