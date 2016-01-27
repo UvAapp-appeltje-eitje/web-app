@@ -4,4 +4,4 @@ install:
  - npm install
 script:
  - dependency-check ./package.json --entry ./bin/www
- - node ./bin/www
+ - sudo node ./bin/www
