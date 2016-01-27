@@ -25,26 +25,42 @@ router.get('/', function(req, res, next) {
 
   database.query('SELECT * FROM prices', function(err, prices, fields) {
 
-    if (err) throw err;
-
-    for (var i = 0; i < prices.length; i++) {
-      prices[i].json = JSON.parse(prices[i].json);
-    }
-
-    var totalPrice = [];
-
-    for (var i = 0; i < prices.length; i++) {
-      totalPrice[i] = 0;
-      for (var j = 0; j < shoppingList.length; j++) {
-        totalPrice[i] += prices[i].json[shoppingList[j].product]
-            * shoppingList[j].amount;
-      }
-    }
-
     database.query('SELECT * FROM locations', function(err, locations, fields) {
-      var data = []
+
+      if (err) throw err;
+
+      for (var i = 0; i < prices.length; i++) {
+        prices[i].json = JSON.parse(prices[i].json);
+      }
+
+      var totalPrice = [];
+      var blacklist = [];
+
+      for (var i = 0; i < prices.length; i++) {
+        totalPrice[i] = 0;
+        for (var j = 0; j < shoppingList.length; j++) {
+          if (shoppingList[j].product in prices[i].json) {
+            totalPrice[i] += prices[i].json[shoppingList[j].product]
+                * shoppingList[j].amount;
+          }
+          else {
+            blacklist.push(i);
+          }
+        }
+      }
+
+      var removed = 0;
+
+      blacklist.forEach(function (element) {
+        totalPrice.splice(element-removed, 1);
+        locations.splice(element-removed, 1);
+        removed++;
+      });
+
+      var data = [];
       for (var i = 0; i < locations.length; i++) {
         data[i] = {
+          index: i,
           price: totalPrice[i],
           lng: locations[i].lng,
           lat: locations[i].lat
