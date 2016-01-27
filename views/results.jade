@@ -9,6 +9,7 @@ block content
   .content
   
     google-map(fit-to-markers, apiKey="AIzaSyBFyc0EwYUqowaDPKKDOwOh6F3_PB_8Thc", zoom="16")
+      // add a marker to the map for every point in the data
       each point in data
         google-map-marker(latitude="#{point.lat}", longitude="#{point.lng}")
           span €#{point.price}
