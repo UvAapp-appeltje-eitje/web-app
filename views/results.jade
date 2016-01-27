@@ -11,6 +11,6 @@ block content
     google-map(fit-to-markers, apiKey="AIzaSyBFyc0EwYUqowaDPKKDOwOh6F3_PB_8Thc", zoom="16")
       each point in data
         google-map-marker(latitude="#{point.lat}", longitude="#{point.lng}")
-          span #{point.index}: €#{point.price}
+          span €#{point.price}
           
   <style>html, body {height: 100%} body {display: flex; flex-direction: column;} google-map {flex-grow: 1;} .content { flex-direction: column; display: flex; flex-grow: 1 } <style>
