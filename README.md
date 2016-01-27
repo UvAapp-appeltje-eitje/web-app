@@ -9,4 +9,4 @@
 2. open the created directory `cd ae-app`
 3. install dependencies `npm install`
 4. run the server `node bin/www`
-5. see the server running at [localhost:3000](http://localhost/:3000)!
+5. see the server running at [localhost:3000](http://localhost:3000/)!
