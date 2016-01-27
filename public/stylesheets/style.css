@@ -14,6 +14,7 @@ header {
   font-weight: bold;
   background-color: #3F51B5;
   color: #FFFFFF;
+  z-index: 1;
 }
 
 header .title {

@@ -4,16 +4,16 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mysql = require('mysql');
 
+exports.database = mysql.createConnection({
+  host     : '130.211.57.185',
+  user     : 'root',
+  password : 'WTK7dUkeEStnH0hxv5Dv',
+  database : 'shops'
+});
 
-// database.connect();
-//
-// database.query('SELECT * FROM locations', function(err, rows, fields) {
-//   if (err) throw err;
-//   console.log('First row: ', rows[0]);
-// });
-//
-// database.end();
+exports.database.connect();
 
 var routes = require('./routes/index');
 var results = require('./routes/results');

@@ -1,13 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var mysql = require('mysql');
-
-var database = mysql.createConnection({
-  host     : '130.211.57.185',
-  user     : 'root',
-  password : 'WTK7dUkeEStnH0hxv5Dv',
-  database : 'shops'
-});
+var database = require('../app').database;
 
 function getShoppingList (req) {
 
@@ -26,30 +19,43 @@ function getShoppingList (req) {
 /* GET results page. */
 router.get('/', function(req, res, next) {
 
+  //res.render("results");
+
   var shoppingList = getShoppingList(req);
 
+  database.query('SELECT * FROM prices', function(err, prices, fields) {
 
-  database.connect();
-
-  console.log("Connecting to database")
-
-  database.query('SELECT * FROM prices', function(err, rows, fields) {
     if (err) throw err;
 
-    console.log("Raw: ",rows);
-
-    for (var i = 0; i < rows.length; i++) {
-      rows[i].json = JSON.parse(rows[i].json);
+    for (var i = 0; i < prices.length; i++) {
+      prices[i].json = JSON.parse(prices[i].json);
     }
 
-    res.json(rows);
+    var totalPrice = [];
 
-    // TODO: use the `shoppingList` and the `rows` to find calculate the
-    // pricing.
+    for (var i = 0; i < prices.length; i++) {
+      totalPrice[i] = 0;
+      for (var j = 0; j < shoppingList.length; j++) {
+        totalPrice[i] += prices[i].json[shoppingList[j].product]
+            * shoppingList[j].amount;
+      }
+    }
+
+    database.query('SELECT * FROM locations', function(err, locations, fields) {
+      var data = []
+      for (var i = 0; i < locations.length; i++) {
+        data[i] = {
+          price: totalPrice[i],
+          lng: locations[i].lng,
+          lat: locations[i].lat
+        }
+      }
+
+      res.render('results',{data: data});
+
+    });
 
   });
-
-  database.end();
 
 });
 

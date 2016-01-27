@@ -1,6 +1,38 @@
 extends layout
 
+block head
+  script(src="components/webcomponentsjs/webcomponents-lite.min.js")
+  link(rel="import", href="/components/google-map/google-map.html")
 block content
   header 
     .title Appeltje Eitje
   .content
+  
+    google-map(fit-to-markers, apiKey="AIzaSyBFyc0EwYUqowaDPKKDOwOh6F3_PB_8Thc")
+      each point in data
+        google-map-marker(latitude="#{point.lat}", longitude="#{point.lng}")
+          span €#{point.price}
+    
+    //- #map(style="height=100%")
+    //- 
+    //- script(type="text/javascript").
+    //-   function initMap() {
+    //-     
+    //-     var map = new google.maps.Map(document.getElementById('map'), {
+    //-       center: {lat: 52.374, lng: 4.93863},
+    //-       zoom: 16
+    //-     });
+    //-     var infowindow = new google.maps.InfoWindow({
+    //-       content: "€14,-"
+    //-     });
+    //-     var marker = new google.maps.Marker({
+    //-       position: {lat: 52.374, lng: 4.93863},
+    //-       map: map
+    //-     });
+    //-     marker.addListener('click', function() {
+    //-       infowindow.open(map, marker);
+    //-     });
+    //-     
+    //-   }
+    //- script(async, defer, src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFyc0EwYUqowaDPKKDOwOh6F3_PB_8Thc&callback=initMap")
+    <style>html, body {height: 100%} body {display: flex; flex-direction: column;} google-map {flex-grow: 1;} .content { flex-direction: column; display: flex; flex-grow: 1 } <style>
