@@ -1,8 +1,7 @@
-sudo: required
 before_install:
  - npm install dependency-check -g
 install:
  - npm install
 script:
  - dependency-check ./package.json --entry ./bin/www
- - sudo node ./bin/www
+ - node ./bin/www
