@@ -1,13 +1,29 @@
-window.addEventListener("load", function () {
+function addElement() {
+  // add the element
+  var template = document.querySelector('#itemTamplate');
+  var clone = document.importNode(template.content, true);
+  document.querySelector(".items").appendChild(clone);
+
+  // select the new element with jQuery
+  var $newEl = $(".item").eq(-1);
+
+  // auto select the item after it's created
+  $newEl.find(".product").select();
+
+  // auto remove if the user leaves it empty
+  $newEl.find(".product").blur(function () {
+    if ($(this).val() == "") {
+      $(this).parent().remove();
+    }
+  });
+}
+
+// jQuery's .ready doesn't wait for things like images and fonts to load.
+$(document).ready(function () {
 
   // if the add button is pressed, copy the data.
-  $("#addButton").click(function () {
-    var t = document.querySelector('#itemTamplate');
-    var clone = document.importNode(t.content, true);
-    // tip: you can use `clone` instad of `document` to edit the data before
-    // adding it to .items (you can't you jquery for this!)
-    document.querySelector(".items").appendChild(clone);
-  });
+  $("#addButton").click(addElement);
+  $("#addButton").focus(addElement);
 
   // if the next button is pressed, send a GET request to `/results`
   $("#nextButton").click(function () {
